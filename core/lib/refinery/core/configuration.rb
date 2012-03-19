@@ -10,7 +10,6 @@ module Refinery
                     :s3_secret_access_key
 
     self.rescue_not_found = false
-    self.s3_backend = false
     self.base_cache_key = :refinery
     self.site_name = "Company Name"
     self.google_analytics_page_code = "UA-xxxxxx-x"
@@ -23,10 +22,11 @@ module Refinery
     self.wymeditor_whitelist_tags = {}
     self.javascripts = []
     self.stylesheets = []
-    self.s3_bucket_name = ENV['S3_BUCKET']
+    self.s3_bucket_name = ENV['S3_REGION'] if ENV['S3_REGION']
     self.s3_region = ENV['S3_REGION']
     self.s3_access_key_id = ENV['S3_KEY']
     self.s3_secret_access_key = ENV['S3_SECRET']
+    self.s3_backend = self.s3_access_key_id.present? && self.s3_secret_access_key.present? &&  self.s3_bucket_name.present?
 
     def config.register_javascript(name)
       self.javascripts << name
